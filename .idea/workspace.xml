@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="56f6f7af-a590-414e-8dec-af5b4811de69" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="/usr/local/apache-maven-3.6.3/repository" />
+        <option name="mavenHome" value="/usr/local/apache-maven-3.6.3" />
+        <option name="userSettingsFile" value="/usr/local/apache-maven-3.6.3/conf/settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1ecmEPsSCkOMDm3ycCBJYt00E1E" />
+  <component name="ProjectViewState">
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="56f6f7af-a590-414e-8dec-af5b4811de69" name="Default Changelist" comment="" />
+      <created>1594629142402</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1594629142402</updated>
+      <workItem from="1594629143831" duration="717000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="500" y="215" key="#Project_Structure" timestamp="1594630256651">
+      <screen x="0" y="23" width="1871" height="1057" />
+    </state>
+    <state x="500" y="215" key="#Project_Structure/0.23.1871.1057/-1366.207.1366.745@0.23.1871.1057" timestamp="1594630256651" />
+    <state width="1667" height="287" key="GridCell.Tab.0.bottom" timestamp="1594629217660">
+      <screen x="0" y="23" width="1871" height="1057" />
+    </state>
+    <state width="1667" height="287" key="GridCell.Tab.0.bottom/0.23.1871.1057/-1366.207.1366.745@0.23.1871.1057" timestamp="1594629217660" />
+    <state width="1667" height="287" key="GridCell.Tab.0.center" timestamp="1594629217659">
+      <screen x="0" y="23" width="1871" height="1057" />
+    </state>
+    <state width="1667" height="287" key="GridCell.Tab.0.center/0.23.1871.1057/-1366.207.1366.745@0.23.1871.1057" timestamp="1594629217659" />
+    <state width="1667" height="287" key="GridCell.Tab.0.left" timestamp="1594629217659">
+      <screen x="0" y="23" width="1871" height="1057" />
+    </state>
+    <state width="1667" height="287" key="GridCell.Tab.0.left/0.23.1871.1057/-1366.207.1366.745@0.23.1871.1057" timestamp="1594629217659" />
+    <state width="1667" height="287" key="GridCell.Tab.0.right" timestamp="1594629217660">
+      <screen x="0" y="23" width="1871" height="1057" />
+    </state>
+    <state width="1667" height="287" key="GridCell.Tab.0.right/0.23.1871.1057/-1366.207.1366.745@0.23.1871.1057" timestamp="1594629217660" />
+    <state x="388" y="131" key="SettingsEditor" timestamp="1594630448483">
+      <screen x="0" y="23" width="1871" height="1057" />
+    </state>
+    <state x="388" y="131" key="SettingsEditor/0.23.1871.1057/-1366.207.1366.745@0.23.1871.1057" timestamp="1594630448483" />
+  </component>
+</project>
