@@ -8,6 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
@@ -22,5 +23,12 @@ public class DepartmentMapperTest {
         System.out.println("影响的行数:"+count);
     }
 
+    @Test
+    public void testShowAllDepartment(){
+        List<Department> departments = departmentMapper.showAllDepartment();
+        for(Department department:departments){
+            System.out.println(department);
+        }
+    }
 
 }

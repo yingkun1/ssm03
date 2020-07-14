@@ -6,6 +6,7 @@ import online.luffyk.service.DepartmentService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
@@ -15,5 +16,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Integer insertOneDepartmentService(Department department) {
         return departmentMapper.insertOneDepartment(department);
+    }
+
+    @Override
+    public List<Department> showAllDepartmentService() {
+        return departmentMapper.showAllDepartment();
     }
 }

@@ -6,4 +6,12 @@
     <insert id="insertOneDepartment">
         insert into table_dept(dept_name) values(#{deptName});
     </insert>
+
+<!--    <resultMap id="departmentResultMap" type="Department">-->
+<!--        <id property="deptId" column="dept_id"/>-->
+<!--        <result property="deptName" column="dept_name"/>-->
+<!--    </resultMap>-->
+    <select id="showAllDepartment" resultType="Department">
+        select * from table_dept;
+    </select>
 </mapper>
