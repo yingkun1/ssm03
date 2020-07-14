@@ -6,4 +6,41 @@
     <insert id="insertOneEmployee">
         insert into table_emp(emp_id,emp_name,gender,email,d_id) values(#{empId},#{empName},#{gender},#{email},#{dId})
     </insert>
+
+    <resultMap id="departmentMap" type="Department">
+        <result property="deptName" column="dept_name"/>
+    </resultMap>
+
+    <resultMap id="employeeDepartmentMap" type="Employee">
+        <id property="empId" column="emp_id"/>
+        <result property="empName" column="emp_name"/>
+        <result property="gender" column="gender"/>
+        <result property="email" column="email"/>
+        <association property="department" resultMap="departmentMap"/>
+    </resultMap>
+
+    <select id="showAllEmployee" resultMap="employeeDepartmentMap">
+        SELECT
+             te.emp_id,
+             te.emp_name,
+             te.gender,
+             te.email,
+             td.dept_name
+        FROM
+            table_emp te
+            LEFT JOIN table_dept td ON te.d_id = td.dept_id
+        LIMIT #{start},#{pageSize}
+    </select>
+
+    <select id="showAllEmployee2" resultMap="employeeDepartmentMap">
+          SELECT
+             te.emp_id,
+             te.emp_name,
+             te.gender,
+             te.email,
+             td.dept_name
+          FROM
+            table_emp te
+            LEFT JOIN table_dept td ON te.d_id = td.dept_id
+    </select>
 </mapper>

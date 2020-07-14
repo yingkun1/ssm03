@@ -21,4 +21,6 @@ public class DepartmentMapperTest {
         Integer count = departmentMapper.insertOneDepartment(department);
         System.out.println("影响的行数:"+count);
     }
+
+
 }

@@ -6,6 +6,7 @@ import online.luffyk.service.EmployeeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -15,5 +16,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Integer insertOneEmployeeService(Employee employee) {
         return employeeMapper.insertOneEmployee(employee);
+    }
+
+    @Override
+    public List<Employee> showAllEmployeeService(Integer start, Integer pageSize) {
+        return employeeMapper.showAllEmployee(start,pageSize);
+    }
+
+    @Override
+    public List<Employee> showAllEmployee2Service() {
+        return employeeMapper.showAllEmployee2();
     }
 }

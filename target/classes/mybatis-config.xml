@@ -7,4 +7,9 @@
     <typeAliases>
         <package name="online.luffyk.domain"/>
     </typeAliases>
+
+    <plugins>
+        <!--引入PageHelper插件-->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"/>
+    </plugins>
 </configuration>
