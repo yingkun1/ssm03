@@ -20,6 +20,7 @@
 </head>
 
 <script type="text/javascript">
+        var totalRecord;
         $(function () {
             to_page(1,10);
         });
@@ -47,16 +48,18 @@
                 var genderTd = $("<td></td>").append(item.gender=="M"?"男":"女");
                 var emailTd = $("<td></td>").append(item.email);
                 var deptNameTd =$("<td></td>").append(item.department.deptName);
-                var editButTd = $("<button></button>").append("编辑");
-                var deleteButTd = $("<button></button>").append("删除");
+                var editButTd = $("<button></button>").append("编辑").addClass("edit_btn");
+                var deleteButTd = $("<button></button>").append("删除").addClass("delete_btn");
                 var btnTd=$("<td></td>").append(editButTd).append(" ").append(deleteButTd);
+                editButTd.attr("edit_id",item.empId);
                 $("<tr></tr>").append(empIdTd).append(empNameTd).append(genderTd).append(emailTd).append(deptNameTd).append(btnTd).appendTo("#emps_tables tbody")
             })
         }
         function build_page_info(result) {
             $("#page_info_area").empty();
             var pageInfo = result.data.pageInfo;
-            $("#page_info_area").append("当前第"+pageInfo.pageNum+"页,共有"+pageInfo.pages+"页,总计"+pageInfo.total+"条记录")
+            totalRecord =  result.data.pageInfo.total;
+            $("#page_info_area").append("当前第"+pageInfo.pageNum+"页,共有"+pageInfo.pages+"页,总计"+totalRecord+"条记录")
         }
         function build_page_nav(result) {
             $("#page_nav_area").empty();
@@ -99,40 +102,126 @@
             navEle.appendTo("#page_nav_area")
         }
         function model_click(){
+            $("#empAndModal form")[0].reset();
+            get_depts("#empAndModal select");
             $("#empAndModal").modal({
                 backdrop:"static"
             })
         }
 
+        function get_depts(ele) {
+            $(ele).empty();
+            $.ajax({
+                url: "/depts",
+                data: null,
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    $.each(data.data.departments,function (index,item) {
+                        var optionEle = $("<option></option>").append(item.deptName).attr("value",item.deptId);
+                        optionEle.appendTo(ele)
+                    })
+                }
+            });
+        }
+
+        function changeText() {
+            console.log("文本内容发生改变");
+            var value = $("#empNameInput").val();
+            console.log("empName="+value);
+            $.ajax({
+                url: "/checkuser",
+                data:"empName="+value,
+                type: "GET",
+                dataType: "json",
+                success:function (data) {
+                    console.log(data);
+                }
+            })
+        }
+
+
+        function saveEmployee() {
+            console.log("点击了保存按钮");
+            var serialize = $("#empAndModal form").serialize();
+            $.ajax({
+                url: "/emp",
+                data: serialize,
+                type: 'POST',
+                dataType: "json",
+                success(data){
+                    console.log(data);
+                    $("#empAndModal").modal("hide");
+                    to_page(totalRecord+1,10)
+                }
+            })
+        }
+        
+
+
+        $(document).on("click",".edit_btn",function () {
+            get_depts("#empUpdateModal select");
+            getEmp($(this).attr("edit_id"));
+            $("#empUpdateButton").attr("edit_id",$(this).attr("edit_id"));
+            $("#empUpdateModal").modal({
+                backdrop:"static"
+            });
+
+        })
+
+        function updateEmployee(){
+            console.log("点击了修改按钮");
+            $.ajax({
+                url: "/emp/"+$("#empUpdateButton").attr("edit_id"),
+                data:$("#empUpdateModal form").serialize(),
+                type: 'PUT',
+                dataType: "json",
+                success(data){
+                    console.log(data);
+                }
+            })
+        }
+
+        function getEmp(id) {
+            $.ajax({
+                url: "/emp/"+id,
+                data: null,
+                type: 'GET',
+                dataType: "json",
+                success(data){
+                    console.log(data);
+                    $("#empNameUpdateInput").text(data.data.empInfo.empName);
+                    $("#emailUpdateInput").val(data.data.empInfo.email);
+                    $("#empUpdateModal input[type=radio]").val([data.data.empInfo.gender]);
+                    $("#empUpdateModal select").val([data.data.empInfo.department.deptId])
+
+                }
+            })
+        }
 
 
 </script>
 <body>
-<%--<!-- Button trigger modal -->--%>
-<%--<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">--%>
-<%--    Launch demo modal--%>
-<%--</button>--%>
-
-<!-- Modal -->
-<div class="modal fade" id="empAndModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!--员工修改-->
+<div class="modal fade" id="empUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">员工添加</h4>
+                <h4 class="modal-title" >员工修改</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">员工姓名</label>
                         <div class="col-sm-10">
-                            <input type="text" name="empName" class="form-control" id="empName" placeholder="">
+                            <p id="empNameUpdateInput" name=""empName"></p>
                         </div>
                     </div>
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">员工邮箱</label>
                         <div class="col-sm-10">
-                            <input type="text" name="email" class="form-control" id="email" placeholder="">
+                            <input type="text" id="emailUpdateInput" name="email" class="form-control" id="email" placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
@@ -146,20 +235,63 @@
                     </div>
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">部门列表</label>
-                        <select class="form-control" name="dId">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                        <select class="form-control" name="dId" >
+
                         </select>
                     </div>
 
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" id="empUpdateButton" onclick="updateEmployee()" class="btn btn-primary">修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal 员工添加 -->
+<div class="modal fade" id="empAndModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">员工添加</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label">员工姓名</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="empNameInput" onchange="changeText()" name="empName" class="form-control" id="empName" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label">员工邮箱</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="emailInput" name="email" class="form-control" id="email" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label">性别</label>
+                        <label class="radio-inline">
+                            <input type="radio" name="gender" id="inlineRadio1" checked="checked" value="M"> 男
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="gender" id="inlineRadio2" value="F"> 女
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label">部门列表</label>
+                        <select class="form-control" name="dId" >
+
+                        </select>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" onclick="saveEmployee()" class="btn btn-primary">保存</button>
             </div>
         </div>
     </div>

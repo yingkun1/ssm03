@@ -8,6 +8,7 @@
     </insert>
 
     <resultMap id="departmentMap" type="Department">
+        <id property="deptId" column="dept_id"/>
         <result property="deptName" column="dept_name"/>
     </resultMap>
 
@@ -25,7 +26,8 @@
              te.emp_name,
              te.gender,
              te.email,
-             td.dept_name
+             td.dept_name,
+             td.dept_id
         FROM
             table_emp te
             LEFT JOIN table_dept td ON te.d_id = td.dept_id
@@ -38,9 +40,62 @@
              te.emp_name,
              te.gender,
              te.email,
-             td.dept_name
+             td.dept_name,
+             td.dept_id
           FROM
             table_emp te
             LEFT JOIN table_dept td ON te.d_id = td.dept_id
     </select>
+
+    <insert id="insertEmployee">
+        INSERT INTO table_emp ( emp_name, gender, email, d_id )
+        VALUES
+            (#{empName},#{gender},#{email},#{dId});
+    </insert>
+
+    <select id="checkEmpName" resultType="Integer">
+        SELECT
+            count( * )
+        FROM
+            table_emp
+        WHERE
+            emp_name = #{empName};
+    </select>
+
+    <select id="getEmployee" resultMap="employeeDepartmentMap">
+        SELECT
+            te.emp_id,
+            te.emp_name,
+            te.gender,
+            te.email,
+            td.dept_name,
+            td.dept_id
+        FROM
+            table_emp te
+            LEFT JOIN table_dept td ON te.d_id = td.dept_id
+        WHERE
+            emp_id =#{empId}
+    </select>
+
+    <update id="updateEmployee">
+        UPDATE table_emp
+        <set>
+            <if test="empName!=null and empName!=''">
+                emp_name=#{empName},
+            </if>
+            <if test="gender!=null and gender!=''">
+                gender = #{gender},
+            </if>
+            <if test="email!=null and email!=''">
+                email = #{email},
+            </if>
+            <if test="dId!=null">
+                d_id = #{dId}
+            </if>
+        </set>
+        <where>
+            emp_id = #{empId};
+        </where>
+
+    </update>
 </mapper>

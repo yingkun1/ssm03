@@ -27,4 +27,24 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employee> showAllEmployee2Service() {
         return employeeMapper.showAllEmployee2();
     }
+
+    @Override
+    public Integer insertEmployeeService(Employee employee) {
+        return employeeMapper.insertEmployee(employee);
+    }
+
+    @Override
+    public Integer checkEmpNameService(String empName) {
+        return employeeMapper.checkEmpName(empName);
+    }
+
+    @Override
+    public Employee getEmployeeService(Integer empId) {
+        return employeeMapper.getEmployee(empId);
+    }
+
+    @Override
+    public Integer updateEmployeeService(Employee employee) {
+        return employeeMapper.updateEmployee(employee);
+    }
 }

@@ -10,4 +10,12 @@ public interface EmployeeService {
     List<Employee> showAllEmployeeService(Integer start, Integer pageSize);
 
     List<Employee> showAllEmployee2Service();
+
+    Integer insertEmployeeService(Employee employee);
+
+    Integer checkEmpNameService(String empName);
+
+    Employee getEmployeeService(Integer empId);
+
+    Integer updateEmployeeService(Employee employee);
 }

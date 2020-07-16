@@ -19,8 +19,8 @@ public class EmployeeMapperTest {
     @Resource
     private EmployeeMapper employeeMapper;
 
-    @Resource
-    private SqlSessionTemplate sqlSessionTemplate;
+//    @Resource
+//    private SqlSessionTemplate sqlSessionTemplate;
 
     @Test
     public void testInsertOneEmployee(){
@@ -29,16 +29,16 @@ public class EmployeeMapperTest {
         System.out.println("受影响的行数："+count);
     }
 
-    @Test
-    public void testBatchInsertEmployee(){
-        EmployeeMapper employeeMapper = sqlSessionTemplate.getMapper(EmployeeMapper.class);
-        for(int i=0;i<1000;i++){
-            String uuid = UUID.randomUUID().toString().substring(0, 6) + i;
-            Employee employee = new Employee(null, uuid, "M", uuid+"@qq.com", 1, null);
-            employeeMapper.insertOneEmployee(employee);
-        }
-        System.out.println("批处理操作完成");
-    }
+//    @Test
+//    public void testBatchInsertEmployee(){
+//        EmployeeMapper employeeMapper = sqlSessionTemplate.getMapper(EmployeeMapper.class);
+//        for(int i=0;i<1000;i++){
+//            String uuid = UUID.randomUUID().toString().substring(0, 6) + i;
+//            Employee employee = new Employee(null, uuid, "M", uuid+"@qq.com", 1, null);
+//            employeeMapper.insertOneEmployee(employee);
+//        }
+//        System.out.println("批处理操作完成");
+//    }
 
     @Test
     public void testShowAllEmployee(){
@@ -66,5 +66,33 @@ public class EmployeeMapperTest {
 //        int nextPage = employeePageInfo.getNextPage();
 //        System.out.println("前一页："+prePage);
 //        System.out.println("后一页："+nextPage);
+    }
+
+    @Test
+    public void testSaveEmployee(){
+        Employee employee = new Employee(null, "刘侠234", "F", "123@qq.com", 1,null);
+        Integer count = employeeMapper.insertOneEmployee(employee);
+        System.out.println("受影响的行数:"+count);
+    }
+
+    @Test
+    public void testCheckEmpName(){
+        Integer count = employeeMapper.checkEmpName("kun yingasdasdasdasdasdasdasd");
+        System.out.println("同名的人数为："+count);
+    }
+
+
+    @Test
+    public void testGetEmployee(){
+        Employee employee = employeeMapper.getEmployee(1);
+        System.out.println(employee);
+    }
+
+    @Test
+    public void testUpdateEmployee(){
+//        Employee employee = new Employee(1027, "刘侠234", "F", "123343423424@qq.com", 1,null);
+        Employee employee = new Employee(1027, "刘侠343247",null, null, null,null);
+        Integer count = employeeMapper.updateEmployee(employee);
+        System.out.println("受影响的行数:"+count);
     }
 }

@@ -26,11 +26,11 @@
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
     </bean>
 
-    <!--批处理操作-->
-    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
-        <constructor-arg name="sqlSessionFactory" ref="sessionFactory"/>
-        <constructor-arg name="executorType" value="BATCH"/>
-    </bean>
+<!--    &lt;!&ndash;批处理操作&ndash;&gt;-->
+<!--    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">-->
+<!--        <constructor-arg name="sqlSessionFactory" ref="sessionFactory"/>-->
+<!--        <constructor-arg name="executorType" value="BATCH"/>-->
+<!--    </bean>-->
 
     <!--扫描dao下的mapper接口，并实例化成对象，存入到spring容器中-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

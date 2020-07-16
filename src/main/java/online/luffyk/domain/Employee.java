@@ -1,9 +1,12 @@
 package online.luffyk.domain;
 
+import org.hibernate.validator.constraints.Email;
+
 public class Employee {
     private Integer empId;      //员工ID
     private String empName;     //员工姓名
     private String gender;      //员工性别
+    @Email(message = "邮箱格式不正确")
     private String email;       //员工邮箱
     private Integer dId;         //部门ID
 

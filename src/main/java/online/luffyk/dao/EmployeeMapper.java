@@ -28,4 +28,28 @@ public interface EmployeeMapper {
      * @return 获取所有的员工信息，以及员工的部门名称
      */
     List<Employee> showAllEmployee2();
+
+    /**
+     *
+     * @param employee 员工的信息
+     * @return 返回受影响的行数
+     */
+    Integer insertEmployee(Employee employee);
+
+    /**
+     *
+     * @param empName 员工姓名
+     * @return 同名的人数
+     */
+    Integer checkEmpName(String empName);
+
+    /**
+     *
+     * @param empId 员工id
+     * @return 根据员工id返回员工的信息
+     */
+    Employee getEmployee(Integer empId);
+
+    Integer updateEmployee(Employee employee);
+
 }
