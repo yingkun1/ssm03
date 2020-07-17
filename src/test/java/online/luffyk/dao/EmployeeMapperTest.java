@@ -95,4 +95,13 @@ public class EmployeeMapperTest {
         Integer count = employeeMapper.updateEmployee(employee);
         System.out.println("受影响的行数:"+count);
     }
+
+    @Test
+    public void test(){
+        String str = "1-2-3-4-5-6-7-8";
+        String[] split = str.split("-");
+        for(String value:split){
+            System.out.println(value);
+        }
+    }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -94,18 +95,31 @@ public class EmployeeController {
     @RequestMapping(value = "emp/{empId}",method = RequestMethod.PUT)
     public Object updateEmp(Employee employee, HttpServletRequest httpServletRequest){
         System.out.println("employee:"+employee);
-        Enumeration parameterNames = httpServletRequest.getParameterNames();
-        while (parameterNames.hasMoreElements()){
-            String key = (String)parameterNames.nextElement();
-            String value = httpServletRequest.getParameter(key);
-            System.out.println("key:"+key+",value:"+value);
+        Integer count = employeeService.updateEmployeeService(employee);
+        if(count==1){
+            return new Result("员工信息修改成功",true,200);
+        }else{
+            return new Result("员工信息修改成功",true,400);
         }
-//        Integer count = employeeService.updateEmployeeService(employee);
-//        if(count==1){
-//            return new Result("员工信息修改成功",true,200);
-//        }else{
-//            return new Result("员工信息修改成功",true,400);
-//        }
-        return null;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "emp/{empIds}",method = RequestMethod.DELETE)
+    public Object deleteEmpById(@PathVariable("empIds") String empIds){
+        ArrayList<Integer> ids = new ArrayList<>();
+        if(!empIds.contains("-")){
+            ids.add(Integer.parseInt(empIds));
+        }else{
+            String[] splitIds = empIds.split("-");
+            for(String value:splitIds){
+                ids.add(Integer.parseInt(value));
+            }
+        }
+        Integer count = employeeService.deleteEmpByIdService(ids);
+        if(count >=1){
+            return new Result("删除用户成功",true,200);
+        }else{
+            return new Result("删除用户失败",false,400);
+        }
     }
 }

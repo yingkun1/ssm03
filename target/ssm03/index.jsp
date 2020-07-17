@@ -21,6 +21,7 @@
 
 <script type="text/javascript">
         var totalRecord;
+        var currentPage;
         $(function () {
             to_page(1,10);
         });
@@ -43,6 +44,7 @@
             $("#emps_tables tbody").empty();
             var emplist = result.data.pageInfo.list;
             $.each(emplist,function (index,item) {
+                var checkBoxTd = $("<td><input type='checkbox' class='check_item' /></td>");
                 var empIdTd = $("<td></td>").append(item.empId);
                 var empNameTd = $("<td></td>").append(item.empName);
                 var genderTd = $("<td></td>").append(item.gender=="M"?"男":"女");
@@ -52,14 +54,16 @@
                 var deleteButTd = $("<button></button>").append("删除").addClass("delete_btn");
                 var btnTd=$("<td></td>").append(editButTd).append(" ").append(deleteButTd);
                 editButTd.attr("edit_id",item.empId);
-                $("<tr></tr>").append(empIdTd).append(empNameTd).append(genderTd).append(emailTd).append(deptNameTd).append(btnTd).appendTo("#emps_tables tbody")
+                deleteButTd.attr("delete_id",item.empId);
+                $("<tr></tr>").append(checkBoxTd).append(empIdTd).append(empNameTd).append(genderTd).append(emailTd).append(deptNameTd).append(btnTd).appendTo("#emps_tables tbody")
             })
         }
         function build_page_info(result) {
             $("#page_info_area").empty();
             var pageInfo = result.data.pageInfo;
             totalRecord =  result.data.pageInfo.total;
-            $("#page_info_area").append("当前第"+pageInfo.pageNum+"页,共有"+pageInfo.pages+"页,总计"+totalRecord+"条记录")
+            currentPage = pageInfo.pageNum;
+            $("#page_info_area").append("当前第"+currentPage+"页,共有"+pageInfo.pages+"页,总计"+totalRecord+"条记录")
         }
         function build_page_nav(result) {
             $("#page_nav_area").empty();
@@ -169,6 +173,22 @@
 
         })
 
+        $(document).on("click",".delete_btn",function () {
+            var empName = $(this).parents("tr").find("td:eq(1)").text();
+            console.log("empName:"+empName);
+            var empId = $(this).attr("delete_id");
+            $.ajax({
+                url: "/emp/"+empId,
+                data:null,
+                type: 'DELETE',
+                dataType: "json",
+                success(data){
+                    console.log(data);
+                    to_page(currentPage,10);
+                }
+            })
+        })
+
         function updateEmployee(){
             console.log("点击了修改按钮");
             $.ajax({
@@ -178,6 +198,8 @@
                 dataType: "json",
                 success(data){
                     console.log(data);
+                    $("#empUpdateModal").modal("hide");
+                    to_page(currentPage,10);
                 }
             })
         }
@@ -198,6 +220,42 @@
                 }
             })
         }
+
+        $(document).on("click","#check_all",function () {
+            console.log($(this).prop("checked"));
+            $(".check_item").prop("checked",$(this).prop("checked"));
+        })
+
+        $(document).on("click",".check_item",function () {
+            var flag = $(".check_item:checked").length==$(".check_item").length;
+            $("#check_all").prop("checked",flag);
+        })
+
+        $(document).on("click","#emp_delete_all_button",function () {
+            console.log("点击了删除全部按钮");
+            var empIdstr="";
+            $.each($(".check_item:checked"),function () {
+                var empId =  $(this).parents("tr").find("td:eq(1)").text();
+                console.log(empId);
+                empIdstr=empIdstr+empId+"-";
+            })
+            var substringIds = empIdstr.substring(0,empIdstr.length-1);
+            console.log(substringIds);
+
+            $.ajax({
+                url: "/emp/"+substringIds,
+                data:null,
+                type: 'DELETE',
+                dataType: "json",
+                success(data){
+                    console.log(data);
+                    to_page(currentPage,10);
+                }
+            })
+        })
+
+
+
 
 
 </script>
@@ -308,7 +366,7 @@
     <div class="row">
         <div style="margin-left: 1000px">
             <input type="button" onclick="model_click()" value="新增">
-            <button>删除</button>
+            <button id="emp_delete_all_button" >删除</button>
         </div>
     </div>
 
@@ -318,6 +376,9 @@
             <table style="border: solid 1px" id="emps_tables">
                 <thead>
                     <tr>
+                        <th>
+                            <input type="checkbox" id="check_all"/>
+                        </th>
                         <th>id</th>
                         <th>姓名</th>
                         <th>性别</th>

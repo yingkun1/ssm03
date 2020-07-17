@@ -52,4 +52,12 @@ public interface EmployeeMapper {
 
     Integer updateEmployee(Employee employee);
 
+    /**
+     *
+     * @param empIds 要删除的员工id集合
+     * @return 返回删除的行数
+     */
+    Integer deleteEmpById(List<Integer> empIds);
+
+
 }
